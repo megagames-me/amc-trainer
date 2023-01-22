@@ -24,7 +24,8 @@
 		{#if $page.data.session}
 			<P>Signed in as {$page.data.session.user?.name}</P>
 		{:else}
-			<Button size="sm" href="/auth/signin" data-sveltekit-preload-data="off">Sign in</Button>	
+<!-- 			<Button size="sm" href="/auth/signin" data-sveltekit-preload-data="off">Sign in</Button>	 -->
+			<Button size="sm" on:click={() => {signIn("google", {callbackUrl: "https://amc.grapecoder.repl.co/"})}}>Sign in</Button>
 		{/if}
     <NavHamburger on:click={toggle} />
   </div>

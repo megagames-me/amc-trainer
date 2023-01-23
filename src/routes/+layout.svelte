@@ -2,16 +2,21 @@
 	import '../app.postcss';
 	
   import { DarkMode } from 'flowbite-svelte';
-	import { Navbar, NavBrand, NavLi, NavUl, NavHamburger, Button, Input, P } from 'flowbite-svelte';
+	import { Navbar, NavBrand, NavLi, NavUl, NavHamburger, Button, Input, P, Avatar, Dropdown, DropdownHeader, DropdownItem, DropdownDivider } from 'flowbite-svelte';
+	
 	import { page } from "$app/stores";
-	import { signIn, signOut } from "@auth/sveltekit/client"
+	import { initials } from "$lib/helpers";
+	
+	import { signIn, signOut } from "@auth/sveltekit/client";
+
+	console.log($page.data.session);
 </script>
 
 <div>
 	<Navbar let:hidden let:toggle>
   <NavBrand href="/">
     <img
-      src="https://flowbite.com/docs/images/logo.svg"
+      src="/logo.svg"
       class="mr-3 h-6 sm:h-9"
       alt="Flowbite Logo"
     />
@@ -22,7 +27,20 @@
   <div class="flex md:order-2">
 		<DarkMode class="mr-3" />
 		{#if $page.data.session}
-			<P>Signed in as {$page.data.session.user?.name}</P>
+			<div>
+				<Avatar id="nav-user-drop" src={$page.data.session.user?.image}>{initials($page.data.session.user?.name)}</Avatar>
+				<Dropdown triggeredBy="#nav-user-drop">
+			    <DropdownHeader>
+			      <span class="block text-sm">{$page.data.session.user?.name}</span>
+			      <span class="block truncate text-sm font-medium"> {$page.data.session.user?.email} </span>
+			    </DropdownHeader>
+			    <DropdownItem>Dashboard</DropdownItem>
+			    <DropdownItem>Settings</DropdownItem>
+			    <DropdownItem>Earnings</DropdownItem>
+			    <DropdownDivider />
+			    <DropdownItem>Sign out</DropdownItem>
+			  </Dropdown>
+			</div>
 		{:else}
 <!-- 			<Button size="sm" href="/auth/signin" data-sveltekit-preload-data="off">Sign in</Button>	 -->
 			<Button size="sm" on:click={() => {signIn("google", {callbackUrl: "https://amc.grapecoder.repl.co/"})}}>Sign in</Button>
@@ -39,6 +57,7 @@
 </Navbar>
 <!--text-slate-900 dark:text-slate-100  -->
 <div class="my-5 lg:mx-40 md:mx-20 mx-10 ">
+																	
 	<slot />
 </div>
 

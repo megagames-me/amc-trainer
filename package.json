@@ -12,11 +12,13 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
+		"@popperjs/core": "^2.11.6",
 		"@sveltejs/adapter-auto": "^1.0.0",
 		"@sveltejs/kit": "^1.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"autoprefixer": "^10.4.7",
+		"classnames": "^2.3.2",
 		"cli-progress": "^3.11.2",
 		"cross-fetch": "^3.1.5",
 		"eslint": "^8.28.0",

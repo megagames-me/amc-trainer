@@ -1,5 +1,5 @@
 /**
- * Gets initials from name 
+ * Gets initials from name
  *
  * Usage:
  * ```ts
@@ -8,8 +8,8 @@
  * ```
  */
 export function initials(name: string): string {
-	let nameArr = name.split(" ");
-	if (nameArr.length == 0) return "?";
+	const nameArr = name.split(' ');
+	if (nameArr.length == 0) return '?';
 	if (nameArr.length == 1) return nameArr[0][0];
 	else return nameArr[0][0] + nameArr[nameArr.length - 1][0];
 }

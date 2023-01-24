@@ -1,9 +1,6 @@
 import preprocess from 'svelte-preprocess';
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/kit/vite';
-// import { dev } from '$app/environment';
-
-console.log('CSRF CHECKING IS OFF');
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -17,10 +14,7 @@ const config = {
 	],
 
 	kit: {
-		adapter: adapter(),
-		csrf: {
-			checkOrigin: false
-		}
+		adapter: adapter()
 	}
 };
 

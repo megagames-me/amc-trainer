@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Heading, P, Button } from 'flowbite-svelte';
+	import { Avatar, Dropdown, DropdownHeader, DropdownItem, DropdownDivider } from 'flowbite-svelte';
 </script>
 
 <div class="text-center my-40">
@@ -11,6 +12,9 @@
 		to 1950. Practice for upcoming tests using our database of more than 5000 problems and detailed
 		solutions, helping you learn.</P
 	>
+
+
+	
 	<Button href="/"
 		>Sign up with Google
 		<svg
@@ -26,4 +30,3 @@
 		>
 	</Button>
 </div>
-<!-- <Hr height="h-px" /> -->

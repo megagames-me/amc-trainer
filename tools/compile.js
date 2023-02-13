@@ -42,7 +42,7 @@ totalChunks().then(chunks => {
 	
 	
 	let data = [getAMC8Data(callback), getAMC10Data(callback), getAMC12Data(callback), getAHSMEData(callback)];
-	// let data = [getAMC8Data(),2,3,4]
+	// let data = [1,2,getAMC12Data(callback),4]
 	
 	Promise.all(data).then((values) => {
 		let finalObject = {

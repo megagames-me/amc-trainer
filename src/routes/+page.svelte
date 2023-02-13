@@ -1,8 +1,17 @@
 <script lang="ts">
-	import { Heading, P, Button } from 'flowbite-svelte';
+	import { Heading, P, Button, Alert } from 'flowbite-svelte';
 	import { Avatar, Dropdown, DropdownHeader, DropdownItem, DropdownDivider } from 'flowbite-svelte';
-</script>
 
+	export let data: PageData;
+</script>
+<svelte:head>
+<title>AMC Trainer</title>
+</svelte:head>
+{#if data.error}
+<Alert color="red">
+  <span class="font-medium">You are not signed in.</span> Please sign in to continue.
+</Alert>
+{/if}
 <div class="text-center my-40">
 	<Heading tag="h1" class="mb-4" customSize="text-4xl font-extrabold  md:text-5xl lg:text-6xl"
 		>Practice problems from AMC 8, 10, 12, and more.

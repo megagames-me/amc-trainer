@@ -32,7 +32,7 @@ async function getAMC8Data(chunkDone) {
       title: serializedContestTitle,
       year: Number(serializedContestTitle.slice(0, 4)),
       formattedTitle: contestLink.textContent + " Contest",
-      link: "https://artofproblemsolving.com/" + contestLink.href,
+      link: "https://artofproblemsolving.com" + contestLink.href,
       problems: {}
     }
     // console.log("Getting " + serializedContestTitle + "...")
@@ -52,14 +52,14 @@ async function getAMC8Data(chunkDone) {
 		
     for (let [problemIndex, problemLink] of problemLinks.entries()) {
 			// Repeating through every problem in contest i
-
+			
 			problemAsync.push(new Promise(async (resolve, reject) => {
 				const serializedProblemTitle = problemLink.title.replace(/\ /g, "_");
 	      finalData[serializedContestTitle].problems[serializedProblemTitle] = {
 	        title: serializedProblemTitle,
 	        formattitle: "Problem " + String(problemIndex + 1),
 	        contest: serializedContestTitle,
-	        link: "https://artofproblemsolving.com/" + problemLink.href,
+	        link: "https://artofproblemsolving.com" + problemLink.href,
 	        data: {
 	          problem: "",
 	          solutions: {},
@@ -101,18 +101,10 @@ async function getAMC8Data(chunkDone) {
 								.toLocaleLowerCase()
 								.startsWith("problem")) {
 	            mode = ["p", curEle];
-	          } else if ((curEle
+	          } else if (curEle
 												.textContent
 												.toLocaleLowerCase()
-												.startsWith("solution") || 
-												curEle
-												.textContent
-												.toLocaleLowerCase()
-												.startsWith("video")) && 
-												!curEle
-												.textContent
-												.toLocaleLowerCase().
-												startsWith("solutions")) {
+												.includes("solution")) {
 	            mode = ["s", curEle];
 							finalData[serializedContestTitle]
 								.problems[serializedProblemTitle]
@@ -133,6 +125,7 @@ async function getAMC8Data(chunkDone) {
 									 || (curEle instanceof problemDOM.window.HTMLLIElement) 
 									 || (curEle instanceof problemDOM.window.HTMLImageElement) 
 									 || (curEle instanceof problemDOM.window.HTMLPreElement) 
+									 || (curEle instanceof problemDOM.window.HTMLDivElement && curEle.className == "center")
 									 || curEle.tagName == "CENTER") {
 	          switch (mode[0]) {
 	            case "p":

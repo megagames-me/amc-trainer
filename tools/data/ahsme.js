@@ -38,7 +38,7 @@ async function getAHSMEData(chunkDone) {
       title: serializedContestTitle,
       year: Number(serializedContestTitle.slice(0, 4)),
       formattedTitle: contestLink.textContent + " Contest",
-      link: "https://artofproblemsolving.com/" + contestLink.href,
+      link: "https://artofproblemsolving.com" + contestLink.href,
       problems: {}
     }
     // console.log("Getting " + serializedContestTitle + "...")
@@ -66,7 +66,7 @@ async function getAHSMEData(chunkDone) {
 	        title: serializedProblemTitle,
 	        formattitle: "Problem " + String(problemIndex + 1),
 	        contest: serializedContestTitle,
-	        link: "https://artofproblemsolving.com/" + problemLink.href,
+	        link: "https://artofproblemsolving.com" + problemLink.href,
 	        data: {
 	          problem: "",
 	          solutions: {},
@@ -113,18 +113,10 @@ async function getAHSMEData(chunkDone) {
 								.toLocaleLowerCase()
 								.startsWith("problem")) {
 	            mode = ["p", curEle];
-	          } else if ((curEle
+	          } else if (curEle
 												.textContent
 												.toLocaleLowerCase()
-												.startsWith("solution") || 
-												curEle
-												.textContent
-												.toLocaleLowerCase()
-												.startsWith("video")) && 
-												!curEle
-												.textContent
-												.toLocaleLowerCase().
-												startsWith("solutions")) {
+												.includes("solution")) {
 	            mode = ["s", curEle];
 							finalData[serializedContestTitle]
 								.problems[serializedProblemTitle]
@@ -145,6 +137,7 @@ async function getAHSMEData(chunkDone) {
 									 || (curEle instanceof problemDOM.window.HTMLLIElement) 
 									 || (curEle instanceof problemDOM.window.HTMLImageElement) 
 									 || (curEle instanceof problemDOM.window.HTMLPreElement) 
+									 || (curEle instanceof problemDOM.window.HTMLDivElement && curEle.className == "center")
 									 || curEle.tagName == "CENTER") {
 	          switch (mode[0]) {
 	            case "p":

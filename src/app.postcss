@@ -2,3 +2,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+	.problem img {
+		@apply inline-block dark:invert h-full;
+	}
+
+	.problem img.latexcenter {
+		text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+	}
+	.problem p {
+		@apply my-4 dark:text-white;
+	}
+	.problem pre {
+		@apply dark:text-white;
+	}
+}

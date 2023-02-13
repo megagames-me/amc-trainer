@@ -24,6 +24,7 @@ async function getAMC10Data(chunkDone) {
 		// Repeating through every contest
 		
     const serializedContestTitle = contestLink.title.replace(/\ /g, "_");
+		
 
 		// Make sure that the link starts with a number, just in case that we select a link that we don't want.
     if (isNaN(parseInt(contestLink.title[0]))) continue;
@@ -32,7 +33,7 @@ async function getAMC10Data(chunkDone) {
       title: serializedContestTitle,
       year: Number(serializedContestTitle.slice(0, 4)),
       formattedTitle: contestLink.title + " Contest",
-      link: "https://artofproblemsolving.com/" + contestLink.href,
+      link: "https://artofproblemsolving.com" + contestLink.href,
       problems: {}
     }
     // console.log("Getting " + serializedContestTitle + "...")
@@ -61,7 +62,7 @@ async function getAMC10Data(chunkDone) {
 	        title: serializedProblemTitle,
 	        formattitle: "Problem " + String(problemIndex + 1),
 	        contest: serializedContestTitle,
-	        link: "https://artofproblemsolving.com/" + problemLink.href,
+	        link: "https://artofproblemsolving.com" + problemLink.href,
 	        data: {
 	          problem: "",
 	          solutions: {},
@@ -71,7 +72,12 @@ async function getAMC10Data(chunkDone) {
 				
 	      
 	
-	      const problemDOM = await getDOM("https://artofproblemsolving.com/wiki/api.php?action=parse&page="+ serializedProblemTitle+ "&format=json");
+	      let problemDOM = await getDOM("https://artofproblemsolving.com/wiki/api.php?action=parse&page="+ serializedProblemTitle+ "&format=json");
+
+				if (problemDOM.window.document.querySelector(".redirectMsg")) {
+					console.log("Redirect on " + serializedProblemTitle);
+					problemDOM = await getDOM("https://artofproblemsolving.com/wiki/api.php?action=parse&page="+ problemDOM.window.document.querySelector("li > a").title.split(" ").join("_") + "&format=json");
+				}
 	
 	      const problemInfoEle = problemDOM.window.document.querySelector(".mw-parser-output");
 	
@@ -103,18 +109,10 @@ async function getAMC10Data(chunkDone) {
 								.toLocaleLowerCase()
 								.startsWith("problem")) {
 	            mode = ["p", curEle];
-	          } else if ((curEle
+	          } else if (curEle
 												.textContent
 												.toLocaleLowerCase()
-												.startsWith("solution") || 
-												curEle
-												.textContent
-												.toLocaleLowerCase()
-												.startsWith("video")) && 
-												!curEle
-												.textContent
-												.toLocaleLowerCase().
-												startsWith("solutions")) {
+												.includes("solution")) {
 	            mode = ["s", curEle];
 							finalData[serializedContestTitle]
 								.problems[serializedProblemTitle]
@@ -135,6 +133,7 @@ async function getAMC10Data(chunkDone) {
 									 || (curEle instanceof problemDOM.window.HTMLLIElement) 
 									 || (curEle instanceof problemDOM.window.HTMLImageElement) 
 									 || (curEle instanceof problemDOM.window.HTMLPreElement) 
+									 || (curEle instanceof problemDOM.window.HTMLDivElement && curEle.className == "center")
 									 || curEle.tagName == "CENTER") {
 	          switch (mode[0]) {
 	            case "p":

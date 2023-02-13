@@ -8,12 +8,11 @@
 	import { page } from '$app/stores';
 	import { initials } from '$lib/helpers';
 
-	import { signIn } from '@auth/sveltekit/client';
+	import { signIn, signOut } from '@auth/sveltekit/client';
 
-	console.log($page.data.session);
 </script>
 
-<div>
+<div class="flex flex-col min-h-screen">
 	<Navbar let:hidden let:toggle>
 		<NavBrand href="/">
 			<img src="/logo.svg" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
@@ -37,11 +36,9 @@
 								{$page.data.session.user?.email}
 							</span>
 						</DropdownHeader>
-						<DropdownItem>Dashboard</DropdownItem>
-						<DropdownItem>Settings</DropdownItem>
-						<DropdownItem>Earnings</DropdownItem>
+						<DropdownItem href={`/users/${$page.data.profile.id}`}>Profile</DropdownItem>
 						<DropdownDivider />
-						<DropdownItem>Sign out</DropdownItem>
+						<DropdownItem on:click={() => {signOut()}}>Sign out</DropdownItem>
 					</Dropdown>
 				</div>
 			{:else}
@@ -57,14 +54,14 @@
 		</div>
 		<NavUl {hidden} class="order-1">
 			<NavLi href="/" active={$page.url.pathname == '/'}>Home</NavLi>
-			<NavLi href="/about">About</NavLi>
-			<NavLi href="/services">Services</NavLi>
+			<NavLi href="/contests" active={$page.url.pathname == '/contests'}>Contests</NavLi>
+			<NavLi href="/trainer">Trainer</NavLi>
 			<NavLi href="/pricing">Pricing</NavLi>
 			<NavLi href="/contact">Contact</NavLi>
 		</NavUl>
 	</Navbar>
 	<!--text-slate-900 dark:text-slate-100  -->
-	<div class="my-5 lg:mx-40 md:mx-20 mx-10 ">
+	<div class="flex flex-col my-5 lg:mx-40 md:mx-20 mx-10 grow">
 		<slot />
 	</div>
 </div>

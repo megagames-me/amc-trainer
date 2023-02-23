@@ -20,7 +20,21 @@ export const load = (async ({params, locals}) => {
 			profile: {
 				select: {
 					id: true,
-					curProblem: true,
+					curProblem: {
+						select: {
+							id: true,
+							title: true,
+							formattedTitle: true,
+							contestId: true,
+							problem: true,
+							contest : {
+								select: {
+									title: true,
+									formattedTitle: true
+								}
+							}
+						}	
+					},
 					curProblemId: true,
 					problemsRight: true,
 					problemsWrong: true,
@@ -29,7 +43,7 @@ export const load = (async ({params, locals}) => {
 				}
 			}
 		}
-	})
+	});
 
 
   return {

@@ -9,7 +9,6 @@
 	import { initials } from '$lib/helpers';
 
 	import { signIn, signOut } from '@auth/sveltekit/client';
-
 </script>
 
 <div class="flex flex-col min-h-screen">
@@ -25,8 +24,8 @@
 			{#if $page.data.session}
 				<div class="h-0">
 					<Button id="nav-user-drop" pill color="light" class="!p-0 !border-0" outline={false}>
-						<Avatar src={$page.data.session.user?.image ?? ""}
-							>{initials($page.data.session.user?.name ?? "?")}</Avatar
+						<Avatar src={$page.data.session.user?.image ?? ''}
+							>{initials($page.data.session.user?.name ?? '?')}</Avatar
 						>
 					</Button>
 					<Dropdown triggeredBy="button#nav-user-drop">
@@ -38,7 +37,11 @@
 						</DropdownHeader>
 						<DropdownItem href={`/users/${$page.data.profile.id}`}>Profile</DropdownItem>
 						<DropdownDivider />
-						<DropdownItem on:click={() => {signOut()}}>Sign out</DropdownItem>
+						<DropdownItem
+							on:click={() => {
+								signOut();
+							}}>Sign out</DropdownItem
+						>
 					</Dropdown>
 				</div>
 			{:else}
@@ -55,9 +58,11 @@
 		<NavUl {hidden} class="order-1">
 			<NavLi href="/" active={$page.url.pathname == '/'}>Home</NavLi>
 			<NavLi href="/contests" active={$page.url.pathname == '/contests'}>Contests</NavLi>
-			<NavLi href="/trainer">Trainer</NavLi>
+			<NavLi href="/trainer" active={$page.url.pathname == '/trainer'}>Trainer</NavLi>
+			<!--
 			<NavLi href="/pricing">Pricing</NavLi>
 			<NavLi href="/contact">Contact</NavLi>
+										-->
 		</NavUl>
 	</Navbar>
 	<!--text-slate-900 dark:text-slate-100  -->

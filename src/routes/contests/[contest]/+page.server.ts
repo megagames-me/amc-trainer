@@ -1,17 +1,35 @@
-import prisma from "$lib/server/prisma"
+import prisma from '$lib/server/prisma';
 import { redirect } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 
 import type { PageServerLoad } from './$types';
+import type { ContestType } from '@prisma/client';
 
-export const load = (async ({params, locals}) => {
+type ContestJSON = {
+	title: string;
+	formattedTitle: string;
+	link: string;
+	type: ContestType;
+	problems: {
+		formattedTitle: string;
+		problem: string;
+		link: string;
+		answer: string;
+		solutions: Array<{ text: string; title: string }>;
+		problemNum: number;
+	}[];
+	year: number;
+} | null;
+
+export const load = (async ({ params, locals }) => {
 	const session = await locals.getSession();
-  if (!session?.user) {
+	if (!session?.user) {
 		throw redirect(307, '/?error=auth');
 		return {};
 	}
-	
-	const contest = await prisma.contest.findFirst({
+
+	// @ts-expect-error prisma does not allow for typing of JSONValue
+	const contest: ContestJSON = await prisma.contest.findFirst({
 		select: {
 			year: true,
 			title: true,
@@ -28,7 +46,7 @@ export const load = (async ({params, locals}) => {
 					problemNum: true
 				},
 				orderBy: {
-					problemNum: "asc"
+					problemNum: 'asc'
 				}
 			}
 		},
@@ -37,10 +55,10 @@ export const load = (async ({params, locals}) => {
 		}
 	});
 	if (contest) return { contest };
-  else {
+	else {
 		throw error(404, {
-      message: 'This contest does not exist.',
-			expected: true
-    });
+			message: 'This contest does not exist.',
+			code: 404
+		});
 	}
 }) satisfies PageServerLoad;

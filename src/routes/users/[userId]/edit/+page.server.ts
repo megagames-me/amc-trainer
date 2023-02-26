@@ -1,76 +1,79 @@
-import prisma from "$lib/server/prisma"
+import prisma from '$lib/server/prisma';
 import { redirect, error, fail } from '@sveltejs/kit';
+import { ContestType } from '$lib/contesttype';
+import type { ContestType as ContestTypeType } from '@prisma/client';
 
 import type { PageServerLoad, Actions } from './$types';
- 
+
 export const actions = {
-  default: async (event) => {
+	default: async (event) => {
 		const session = await event.locals.getSession();
-		const user = await prisma.profile.findUnique({where: {id: Number(event.params.userId)}, include: {user: true}});
-		
-    const data = await event.request.formData();
-		let grad = Number(data.get("grad"));
-		let desc = data.get("desc");
+		const user = await prisma.profile.findUnique({
+			where: { id: Number(event.params.userId) },
+			include: { user: true }
+		});
+
+		const data = await event.request.formData();
+		let grad: number | null = Number(data.get('grad'));
+		const desc = String(data.get('desc'));
+		const pref = String(data.get('pref'));
+
+		if (grad == 0) grad = null;
 
 		if (!session?.user) {
-			return fail(403, { grad, desc, authedFull: false });
+			return fail(403, { grad, desc, pref, authedFull: false });
 		}
-		
+
 		if (!user) {
-			return fail(404, { grad, desc, userExists: false });
+			return fail(404, { grad, desc, pref, userExists: false });
 		}
 
 		if (user?.user?.email !== session?.user?.email) {
-			return fail(403, { grad, desc, authed: false });
+			return fail(403, { grad, desc, pref, authed: false });
 		}
-		
+
 		if (desc && desc?.length > 150) {
-			return fail(400, { grad, desc, lengthDesc: true });
+			return fail(400, { grad, desc, pref, lengthDesc: true });
 		}
 
 		if (grad && (grad < new Date().getFullYear() || grad > new Date().getFullYear() + 10)) {
-			return fail(400, { grad, desc, gradOut: true });
+			return fail(400, { grad, desc, pref, gradOut: true });
 		}
 
-		// let dataw: Record<string, any> = {};
+		if (pref && !Object.values(ContestType as Record<string, string>).includes(pref)) {
+			return fail(400, { grad, desc, pref, prefInvalid: true });
+		}
 
-		// if (isNaN(grad)) grad = {unset: true};
-		// if (desc) dataw.description = desc;
-		// if (grad) dataw.grad = grad;
-
-		// if (isNaN(grad)) {
-		// 	dataw.grad = {unset: true};
-		// }
-		// if (desc == "" || desc == " ") {
-		// 	dataw.desc = {unset: true};
-		// }
-		
 		try {
-			const profile = await prisma.profile.update({
+			await prisma.profile.update({
 				where: {
 					id: Number(event.params.userId)
 				},
 				data: {
-					description: desc == "" || desc == " " ? null : desc,
-					grad: isNaN(grad) ? null : grad
+					description: desc == '' || desc == ' ' ? null : desc,
+					grad: isNaN(grad ?? 1) ? null : grad,
+					preference: (pref ?? 'ANY') as ContestTypeType
 				}
-			})
-		} catch(e) {
-			console.log("error", e);
-			return fail(500, { message: "An error happened while editing your profile.", expected: true });
+			});
+		} catch (e) {
+			console.log('error', e);
+			return fail(500, {
+				message: 'An error happened while editing your profile.',
+				expected: true
+			});
 		}
 
-		return {success: true};
-  }
+		return { success: true };
+	}
 } satisfies Actions;
 
-export const load = (async ({params, locals}) => {
+export const load = (async ({ params, locals }) => {
 	const session = await locals.getSession();
-  if (!session?.user) {
+	if (!session?.user) {
 		throw redirect(307, '/?error=auth');
 		return {};
 	}
-	
+
 	const profile = await prisma.profile.findUnique({
 		where: {
 			id: Number(params.userId)
@@ -80,6 +83,7 @@ export const load = (async ({params, locals}) => {
 			id: true,
 			grad: true,
 			createdAt: true,
+			preference: true,
 			user: {
 				select: {
 					name: true,
@@ -96,7 +100,8 @@ export const load = (async ({params, locals}) => {
 	if (profile) return { uprof: profile };
 	else {
 		throw error(404, {
-      message: 'This user does not exist.'
-    });
+			message: 'This user does not exist.',
+			code: 404
+		});
 	}
 }) satisfies PageServerLoad;

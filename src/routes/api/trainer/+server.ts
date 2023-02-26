@@ -1,8 +1,7 @@
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-import prisma from "$lib/server/prisma"
-
+import prisma from '$lib/server/prisma';
 
 // Get current problem (or create new if starting)
 export const GET = (async (event) => {
@@ -10,16 +9,16 @@ export const GET = (async (event) => {
 
 	if (!session?.user) {
 		throw error(400, {
-			message: "Not authenticated",
-			expected: true
+			message: 'Not authenticated',
+			code: 400
 		});
 	}
-	
+
 	const profile = await prisma.user.findUnique({
 		where: {
 			email: String(session?.user?.email)
 		},
-		
+
 		select: {
 			id: true,
 			profile: {
@@ -32,13 +31,13 @@ export const GET = (async (event) => {
 							formattedTitle: true,
 							contestId: true,
 							problem: true,
-							contest : {
+							contest: {
 								select: {
 									title: true,
 									formattedTitle: true
 								}
 							}
-						}	
+						}
 					},
 					curProblemId: true,
 					problemsRight: true,
@@ -52,25 +51,27 @@ export const GET = (async (event) => {
 
 	if (!profile?.profile) {
 		throw error(500, {
-			message: "User profile record does not exist.",
-			expected: true
+			message: 'User profile record does not exist.',
+			code: 500
 		});
 	}
 
 	if (!profile.profile?.curProblem) {
-		let randProb: Array<Record<string, any>>;
-		if (profile.profile.preference !== "ANY") {
-			randProb = await prisma.$queryRaw`SELECT "Problem".id, "Problem".title, "Problem"."formattedTitle", 
+		let randProb: Array<Record<string, unknown>>;
+		if (profile.profile.preference !== 'ANY') {
+			randProb =
+				await prisma.$queryRaw`SELECT "Problem".id, "Problem".title, "Problem"."formattedTitle", 
 	"Problem"."contestId", "Problem".problem,
 	"Contest".title AS "contestTitle",
 	"Contest"."formattedTitle" AS "contestFormattedTitle"
 	FROM "Problem"
 	INNER JOIN "Contest" ON "Problem"."contestId" = "Contest".id
+	WHERE "Problem".type = CAST( ${profile.profile.preference} as "ContestType" )
 	ORDER BY random()
-	WHERE type=${profile.profile.preference}
 	LIMIT 1;`;
 		} else {
-			randProb = await prisma.$queryRaw`SELECT "Problem".id, "Problem".title, "Problem"."formattedTitle", 
+			randProb =
+				await prisma.$queryRaw`SELECT "Problem".id, "Problem".title, "Problem"."formattedTitle", 
 	"Problem"."contestId", "Problem".problem,
 	"Contest".title AS "contestTitle",
 	"Contest"."formattedTitle" AS "contestFormattedTitle"
@@ -79,18 +80,18 @@ export const GET = (async (event) => {
 	ORDER BY random()
 	LIMIT 1;`;
 		}
-	
+
 		if (!randProb[0]) {
 			throw error(500, {
-				message: "Random problem could not be found.",
-				expected: true
+				message: 'Random problem could not be found.',
+				code: 500
 			});
 		}
 
 		await prisma.profile.update({
 			where: { id: profile.profile.id },
 			data: {
-				curProblemId: randProb[0].id
+				curProblemId: randProb[0].id as number
 			}
 		});
 
@@ -98,11 +99,10 @@ export const GET = (async (event) => {
 			title: randProb[0].contestTitle,
 			formattedTitle: randProb[0].contestFormattedTitle
 		};
-	  return json(randProb[0]);
+		return json(randProb[0]);
 	} else {
-		return json(profile.profile.curProblem)
+		return json(profile.profile.curProblem);
 	}
-	
 }) satisfies RequestHandler;
 
 // Checking answer and sending related data back
@@ -111,8 +111,8 @@ export const POST = (async (event) => {
 
 	if (!session?.user) {
 		throw error(400, {
-			message: "Not authenticated",
-			expected: true
+			message: 'Not authenticated',
+			code: 400
 		});
 	}
 
@@ -120,7 +120,7 @@ export const POST = (async (event) => {
 		where: {
 			email: String(session?.user?.email)
 		},
-		
+
 		select: {
 			id: true,
 			profile: {
@@ -135,13 +135,13 @@ export const POST = (async (event) => {
 							problem: true,
 							answer: true,
 							solutions: true,
-							contest : {
+							contest: {
 								select: {
 									title: true,
 									formattedTitle: true
 								}
 							}
-						}	
+						}
 					},
 					curProblemId: true,
 					problemsRight: true,
@@ -155,18 +155,18 @@ export const POST = (async (event) => {
 
 	if (!profile?.profile) {
 		throw error(500, {
-			message: "User profile record does not exist.",
-			expected: true
+			message: 'User profile record does not exist.',
+			code: 500
 		});
 	}
 
 	if (!profile?.profile?.curProblem) {
 		throw error(500, {
 			message: "User doesn't have a problem assigned.",
-			expected: true
+			code: 500
 		});
 	}
-	
+
 	const { answer } = await event.request.json();
 
 	if (answer == null) {
@@ -176,18 +176,18 @@ export const POST = (async (event) => {
 			},
 			data: {
 				curProblemId: null,
-				problemsSkip: ++profile.profile.problemsSkip,
+				problemsSkip: ++profile.profile.problemsSkip
 			}
 		});
-		return {
-			result: "skipped",
+		return json({
+			result: 'skipped',
 			curProblem: profile.profile.curProblem,
 			problemsRight: profile.profile.problemsRight,
 			problemsWrong: profile.profile.problemsWrong,
 			problemsSkip: profile.profile.problemsSkip
-		}
+		});
 	}
-	
+
 	if (profile.profile.curProblem.answer == answer) {
 		await prisma.profile.update({
 			where: {
@@ -195,17 +195,17 @@ export const POST = (async (event) => {
 			},
 			data: {
 				curProblemId: null,
-				problemsRight: ++profile.profile.problemsRight,
+				problemsRight: ++profile.profile.problemsRight
 			}
 		});
 
-		return {
-			result: "correct",
+		return json({
+			result: 'correct',
 			curProblem: profile.profile.curProblem,
 			problemsRight: profile.profile.problemsRight,
 			problemsWrong: profile.profile.problemsWrong,
 			problemsSkip: profile.profile.problemsSkip
-		}
+		});
 	} else {
 		await prisma.profile.update({
 			where: {
@@ -213,18 +213,15 @@ export const POST = (async (event) => {
 			},
 			data: {
 				curProblemId: null,
-				problemsWrong: ++profile.profile.problemsWrong,
+				problemsWrong: ++profile.profile.problemsWrong
 			}
 		});
-		return {
-			result: "wrong",
+		return json({
+			result: 'wrong',
 			curProblem: profile.profile.curProblem,
 			problemsRight: profile.profile.problemsRight,
 			problemsWrong: profile.profile.problemsWrong,
 			problemsSkip: profile.profile.problemsSkip
-		}
+		});
 	}
 }) satisfies RequestHandler;
-
-
-										

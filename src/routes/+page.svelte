@@ -1,16 +1,19 @@
 <script lang="ts">
 	import { Heading, P, Button, Alert } from 'flowbite-svelte';
-	import { Avatar, Dropdown, DropdownHeader, DropdownItem, DropdownDivider } from 'flowbite-svelte';
+	import { signIn } from '@auth/sveltekit/client';
+
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>
+
 <svelte:head>
-<title>AMC Trainer</title>
+	<title>AMC Trainer</title>
 </svelte:head>
 {#if data.error}
-<Alert color="red">
-  <span class="font-medium">You are not signed in.</span> Please sign in to continue.
-</Alert>
+	<Alert color="red">
+		<span class="font-medium">You are not signed in.</span> Please sign in to continue.
+	</Alert>
 {/if}
 <div class="text-center my-40">
 	<Heading tag="h1" class="mb-4" customSize="text-4xl font-extrabold  md:text-5xl lg:text-6xl"
@@ -21,21 +24,38 @@
 		to 1950. Practice for upcoming tests using our database of more than 5000 problems and detailed
 		solutions, helping you learn.</P
 	>
-
-
-	
-	<Button href="/"
-		>Sign up with Google
-		<svg
-			class="ml-2 -mr-1 w-5 h-5"
-			fill="currentColor"
-			viewBox="0 0 20 20"
-			xmlns="http://www.w3.org/2000/svg"
-			><path
-				fill-rule="evenodd"
-				d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-				clip-rule="evenodd"
-			/></svg
-		>
-	</Button>
+	{#if data?.session?.user}
+		<Button href="/trainer"
+			>Start Training
+			<svg
+				class="ml-2 -mr-1 w-5 h-5"
+				fill="currentColor"
+				viewBox="0 0 20 20"
+				xmlns="http://www.w3.org/2000/svg"
+				><path
+					fill-rule="evenodd"
+					d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+					clip-rule="evenodd"
+				/></svg
+			>
+		</Button>
+	{:else}
+		<Button
+			on:click={() => {
+				signIn('google', { callbackUrl: 'https://amc.grapecoder.repl.co/' });
+			}}
+			>Sign up with Google
+			<svg
+				class="ml-2 -mr-1 w-5 h-5"
+				fill="currentColor"
+				viewBox="0 0 20 20"
+				xmlns="http://www.w3.org/2000/svg"
+				><path
+					fill-rule="evenodd"
+					d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+					clip-rule="evenodd"
+				/></svg
+			>
+		</Button>
+	{/if}
 </div>

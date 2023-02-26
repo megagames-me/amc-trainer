@@ -1,29 +1,21 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
-
-
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 const config = {
-  content: [
-    "./src/**/*.{html,js,svelte,ts}",
-    "./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}",
-  ],
+	content: [
+		'./src/**/*.{html,js,svelte,ts}',
+		'./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}'
+	],
 
-  theme: {
-    extend: {
-
+	theme: {
+		extend: {
 			fontFamily: {
-        sans: [
-          'Inter',
-          ...defaultTheme.fontFamily.sans,
-        ]
-      }
-		},
-  },
+				sans: ['Inter', ...defaultTheme.fontFamily.sans]
+			}
+		}
+	},
 
-  plugins: [
-    require('flowbite/plugin')
-  ],
-  darkMode: 'class',
+	plugins: [require('flowbite/plugin')],
+	darkMode: 'class'
 };
 
 module.exports = config;

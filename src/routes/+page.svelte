@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Heading, P, Button, Alert } from 'flowbite-svelte';
+	import { Heading, P, Button, Alert, A, Span } from 'flowbite-svelte';
 	import { signIn } from '@auth/sveltekit/client';
 
 	import type { PageData } from './$types';
@@ -15,6 +15,7 @@
 		<span class="font-medium">You are not signed in.</span> Please sign in to continue.
 	</Alert>
 {/if}
+
 <div class="text-center my-40">
 	<Heading tag="h1" class="mb-4" customSize="text-4xl font-extrabold  md:text-5xl lg:text-6xl"
 		>Practice problems from AMC 8, 10, 12, and more.
@@ -58,4 +59,14 @@
 			>
 		</Button>
 	{/if}
+</div>
+								<div class="text-left mb-40  flex xl:grid xl:grid-cols-2 flex-col xl:gap-20 gap-10 justify-center items-center">
+								<div>
+	<Heading tag="h1" class="mb-4" customSize="text-4xl font-extrabold  md:text-5xl lg:text-6xl"><Span gradient>Customizable</Span> Trainer.</Heading>
+<P class="mb-6 text-md lg:text-lg  dark:text-gray-400">AMC Trainer allows you to choose what contests you want to practice on the trainer while recording your statistics. It gives you state of the art feedback if you get your answers wrong, sometimes giving you several different possible solutions to a single problem. Share with your friends how much you have been practicing!</P>
+								</div>
+								<div>
+<img src="/trainer.png" class="dark:block hidden" />
+								<img src="/lighttrainer.png" class="dark:hidden block" />
+								</div>
 </div>

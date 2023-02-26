@@ -2,7 +2,18 @@
 	import '../app.postcss';
 
 	import { DarkMode } from 'flowbite-svelte';
-	import { Navbar, NavBrand, NavLi, NavUl, NavHamburger, Button, Footer, FooterLinkGroup, FooterLink, A, Heading, Span } from 'flowbite-svelte';
+	import {
+		Navbar,
+		NavBrand,
+		NavLi,
+		NavUl,
+		NavHamburger,
+		Button,
+		Footer,
+		FooterLinkGroup,
+		FooterLink,
+		A,
+	} from 'flowbite-svelte';
 	import { Avatar, Dropdown, DropdownHeader, DropdownItem, DropdownDivider } from 'flowbite-svelte';
 
 	import { page } from '$app/stores';
@@ -69,14 +80,21 @@
 	<div class="flex flex-col my-5 lg:mx-40 md:mx-20 mx-10 grow">
 		<slot />
 	</div>
-										{#if $page.url.pathname == '/'}
-										<div>
-										<Footer class="dark:!bg-gray-900 !rounded-none">
-  <p class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">AMC Trainer is licensed under the GNU AGPLv3. Any ideas? Submit a PR or an issue <A href="https://github.com/megagames-me/amc-trainer">here</A>.</p>
-  <FooterLinkGroup ulClass="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
-    <FooterLink href="/trainer">Trainer</FooterLink>
-    <FooterLink href="/contests">Contests</FooterLink>
-  </FooterLinkGroup>
-</Footer></div>
-										{/if}
+	{#if $page.url.pathname == '/'}
+		<div>
+			<Footer class="dark:!bg-gray-900 !rounded-none">
+				<p class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+					AMC Trainer is licensed under the GNU AGPLv3. Any ideas? Submit a PR or an issue <A
+						href="https://github.com/megagames-me/amc-trainer">here</A
+					>.
+				</p>
+				<FooterLinkGroup
+					ulClass="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0"
+				>
+					<FooterLink href="/trainer">Trainer</FooterLink>
+					<FooterLink href="/contests">Contests</FooterLink>
+				</FooterLinkGroup>
+			</Footer>
+		</div>
+	{/if}
 </div>

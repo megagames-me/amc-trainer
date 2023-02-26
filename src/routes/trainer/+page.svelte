@@ -251,7 +251,10 @@
 						>.
 					</p>
 				{/if}
-				<p class="hidden dark:block text-slate-500">Note that diagrams will appear inverted in dark mode. Shaded/darkened areas will be lightened areas instead.</p>
+				<p class="hidden dark:block text-slate-500">
+					Note that diagrams will appear inverted in dark mode. Shaded/darkened areas will be
+					lightened areas instead.
+				</p>
 			</div>
 		</div>
 	{/if}

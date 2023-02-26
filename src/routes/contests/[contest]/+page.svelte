@@ -224,8 +224,8 @@
 					{#if timerEnded}
 						<p>Total points</p>
 						<Heading tag="h3" class="!mb-0 inline-block w-auto"
-							>{getPoints()}/{data?.contest?.problems?.length ??
-								25 * contestMetadata[data?.contest?.type ?? ContestType.AMC8].correct}</Heading
+							>{getPoints()}/{(data?.contest?.problems?.length ??
+								25) * (contestMetadata[data?.contest?.type ?? ContestType.AMC8].correct)}</Heading
 						>
 					{:else}
 						<p>Total answered</p>

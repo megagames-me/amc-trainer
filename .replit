@@ -1,4 +1,4 @@
-run = "npm run preview"
+run = "npm run dev"
 
 hidden = [".config"]
 

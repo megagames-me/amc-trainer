@@ -34,7 +34,7 @@
 
 		let problemData;
 		try {
-			problemData = await fetch('https://amc.grapecoder.repl.co/api/trainer', {
+			problemData = await fetch('/api/trainer', {
 				headers: {
 					Accept: 'application/json'
 				}
@@ -56,6 +56,7 @@
 		}
 		results = false;
 		problemData = await problemData.json();
+		answer = undefined;
 		if (data?.profile) data.profile.curProblem = problemData;
 
 		startLoading = false;
@@ -69,7 +70,7 @@
 		checkingAnswer = true;
 		let result;
 		try {
-			result = await fetch('https://amc.grapecoder.repl.co/api/trainer', {
+			result = await fetch('/api/trainer', {
 				method: 'POST',
 				body: JSON.stringify({ answer: answer ?? null }),
 				headers: {
@@ -250,6 +251,10 @@
 						>.
 					</p>
 				{/if}
+				<p class="hidden dark:block text-slate-500">
+					Note that diagrams will appear inverted in dark mode. Shaded/darkened areas will be
+					lightened areas instead.
+				</p>
 			</div>
 		</div>
 	{/if}

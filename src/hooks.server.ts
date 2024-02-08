@@ -30,7 +30,7 @@ const handlerFunc = SvelteKitAuth({
 	adapter: PrismaAdapter(prisma),
 	useSecureCookies: true,
 	trustHost: true,
-	debug: true
+	secret: "3342a6cf486d7d0aec900e34781884127cab8e87092bcc246f1d763c04a27b39",
 });
 
 export const handle = (({ event, resolve }) => {

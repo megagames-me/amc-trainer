@@ -1,14 +1,22 @@
 <script lang="ts">
-	import { Heading, P, Button, Alert, Span } from 'flowbite-svelte';
 	import { signIn } from '@auth/sveltekit/client';
+	import { Alert, Button, Heading, P, Span } from 'flowbite-svelte';
 
-	import type { PageData } from './$types';
 	import { PUBLIC_ORIGIN } from '$env/static/public';
-	import { getContext } from 'svelte';
+	import { getContext, onMount } from 'svelte';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 
 	const conversion: (() => void) | undefined = getContext('conversionFunction');
+
+	onMount(() => {
+		if (conversion) {
+			console.log(conversion);
+			console.log('Doing conversion!');
+			conversion();
+		}
+	});
 </script>
 
 <svelte:head>
@@ -47,10 +55,6 @@
 	{:else}
 		<Button
 			on:click={() => {
-				if (conversion) {
-					console.log('Doing conversion!');
-					conversion();
-				}
 				signIn('google', { callbackUrl: PUBLIC_ORIGIN + '/' });
 			}}
 			>Sign up with Google

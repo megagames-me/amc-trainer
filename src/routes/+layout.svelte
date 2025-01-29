@@ -1,27 +1,31 @@
 <script lang="ts">
 	import '../app.postcss';
 
-	import { DarkMode } from 'flowbite-svelte';
 	import {
+		A,
+		Avatar,
+		Button,
+		DarkMode,
+		Dropdown,
+		DropdownDivider,
+		DropdownHeader,
+		DropdownItem,
+		Footer,
+		FooterLink,
+		FooterLinkGroup,
 		Navbar,
 		NavBrand,
-		NavLi,
-		NavUl,
 		NavHamburger,
-		Button,
-		Footer,
-		FooterLinkGroup,
-		FooterLink,
-		A
+		NavLi,
+		NavUl
 	} from 'flowbite-svelte';
-	import { Avatar, Dropdown, DropdownHeader, DropdownItem, DropdownDivider } from 'flowbite-svelte';
 
 	import { page } from '$app/stores';
 	import { initials } from '$lib/helpers';
 
-	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { PUBLIC_ORIGIN } from '$env/static/public';
 	import Analytics from '$lib/Analytics.svelte';
+	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { setContext } from 'svelte';
 
 	let conversion: (() => void) | undefined;

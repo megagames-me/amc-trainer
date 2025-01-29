@@ -3,8 +3,12 @@
 	import { signIn } from '@auth/sveltekit/client';
 
 	import type { PageData } from './$types';
+	import { PUBLIC_ORIGIN } from '$env/static/public';
+	import { getContext } from 'svelte';
 
 	export let data: PageData;
+
+	const conversion: (() => void) | undefined = getContext('conversionFunction');
 </script>
 
 <svelte:head>
@@ -43,7 +47,11 @@
 	{:else}
 		<Button
 			on:click={() => {
-				signIn('google', { callbackUrl: 'https://amc.grapecoder.repl.co/' });
+				if (conversion) {
+					console.log('Doing conversion!');
+					conversion();
+				}
+				signIn('google', { callbackUrl: PUBLIC_ORIGIN + '/' });
 			}}
 			>Sign up with Google
 			<svg

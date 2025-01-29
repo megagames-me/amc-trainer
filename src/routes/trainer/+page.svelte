@@ -1,15 +1,15 @@
 <script lang="ts">
 	import {
+		A,
+		Accordion,
+		AccordionItem,
 		Breadcrumb,
 		BreadcrumbItem,
+		Button,
 		Heading,
 		P,
-		Button,
 		Radio,
-		Spinner,
-		AccordionItem,
-		Accordion,
-		A
+		Spinner
 	} from 'flowbite-svelte';
 	import type { PageData } from './$types';
 
@@ -123,6 +123,14 @@
 					<Spinner size="4" color="white" class={(startLoading ? '' : 'hidden ') + 'mr-3'} /> Start</Button
 				>
 				<Button href={`/users/${data?.profile?.id}/edit?trainer`}>Settings</Button>
+			</div>
+			<div class="flex flex-col gap-2 justify-center items-center ">
+				<P color="text-gray-500"
+					>Currently serving questions from {data.profile?.preference == 'ANY'
+						? 'any contest'
+						: data.profile?.preference?.replace('C', 'C ') + ' contests'}</P
+				>
+				<P color="text-gray-500">Click "Settings" to change</P>
 			</div>
 		</div>
 	{:else}

@@ -1,6 +1,6 @@
 import { SvelteKitAuth } from '@auth/sveltekit';
 import Google from '@auth/core/providers/google';
-import { GOOGLE_ID, GOOGLE_SECRET } from '$env/static/private';
+import { AUTH_SECRET, GOOGLE_ID, GOOGLE_SECRET, PROTOCOL } from '$env/static/private';
 
 import { PrismaAdapter } from '$lib/server/adapter';
 import prisma from '$lib/server/prisma';
@@ -28,25 +28,25 @@ const handlerFunc = SvelteKitAuth({
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 	adapter: PrismaAdapter(prisma),
-	useSecureCookies: true,
 	trustHost: true,
-	secret: "3342a6cf486d7d0aec900e34781884127cab8e87092bcc246f1d763c04a27b39",
+	secret: AUTH_SECRET,
+	debug: true,
 });
 
 export const handle = (({ event, resolve }) => {
-	event.url.protocol = 'https:';
+	event.url.protocol = PROTOCOL;
 
 	const symbol = Object.getOwnPropertySymbols(event.request)[1];
 
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
-	event.request[symbol].url.protocol = 'https:';
+	event.request[symbol].url.protocol = PROTOCOL;
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
 	for (let i = 0; i < event.request[symbol].urlList.length; i++) {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
-		event.request[symbol].urlList[i].protocol = 'https:';
+		event.request[symbol].urlList[i].protocol = PROTOCOL;
 	}
 
 	return handlerFunc({ event, resolve });

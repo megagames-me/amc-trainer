@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import '../app.postcss';
 
 	import { DarkMode } from 'flowbite-svelte';
@@ -12,7 +12,7 @@
 		Footer,
 		FooterLinkGroup,
 		FooterLink,
-		A,
+		A
 	} from 'flowbite-svelte';
 	import { Avatar, Dropdown, DropdownHeader, DropdownItem, DropdownDivider } from 'flowbite-svelte';
 
@@ -20,8 +20,19 @@
 	import { initials } from '$lib/helpers';
 
 	import { signIn, signOut } from '@auth/sveltekit/client';
+	import { PUBLIC_ORIGIN } from '$env/static/public';
+	import Analytics from '$lib/Analytics.svelte';
+	import { setContext } from 'svelte';
+
+	let conversion: (() => void) | undefined;
+
+	$: {
+		console.log('Setting conversion function');
+		setContext('conversionFunction', conversion);
+	}
 </script>
 
+<Analytics bind:conversion />
 <div class="flex flex-col min-h-screen">
 	<Navbar let:hidden let:toggle>
 		<NavBrand href="/">
@@ -60,7 +71,7 @@
 				<Button
 					size="sm"
 					on:click={() => {
-						signIn('google', { callbackUrl: 'https://amc.grapecoder.repl.co/' });
+						signIn('google', { callbackUrl: PUBLIC_ORIGIN + '/' });
 					}}>Sign in</Button
 				>
 			{/if}
@@ -78,7 +89,7 @@
 	</Navbar>
 	<!--text-slate-900 dark:text-slate-100  -->
 	<div class="flex flex-col my-5 lg:mx-40 md:mx-20 mx-10 grow">
-		<slot />
+		<slot {conversion} />
 	</div>
 	{#if $page.url.pathname == '/'}
 		<div>

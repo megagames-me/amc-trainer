@@ -22,6 +22,15 @@
 			conversion();
 		}
 	}
+
+	const schema = {
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		name: 'AMC Trainer',
+		url: PUBLIC_ORIGIN,
+		description: 'Practice problems from AMC 8, 10, 12, and more.'
+	};
+	const jsonLd = `<script type="application/ld+json">${JSON.stringify(schema)}<\/script>`;
 </script>
 
 <svelte:head>
@@ -51,15 +60,7 @@
 	/>
 	<meta name="twitter:image" content="{PUBLIC_ORIGIN}/trainer.png" />
 	<link rel="canonical" href={PUBLIC_ORIGIN} />
-	<script type="application/ld+json">
-		{
-			"@context": "https://schema.org",
-			"@type": "WebSite",
-			"name": "AMC Trainer",
-			"url": "{PUBLIC_ORIGIN}",
-			"description": "Practice problems from AMC 8, 10, 12, and more."
-		}
-	</script>
+	{@html jsonLd}
 </svelte:head>
 {#if data.error}
 	<Alert color="red">

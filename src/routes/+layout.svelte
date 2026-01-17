@@ -30,8 +30,8 @@
 
 	let conversion: (() => void) | undefined;
 
-	$: {
-		console.log('Setting conversion function');
+	$: if (conversion !== undefined) {
+		console.log('Setting conversion function', conversion);
 		setContext('conversionFunction', conversion);
 	}
 </script>
@@ -93,7 +93,7 @@
 	</Navbar>
 	<!--text-slate-900 dark:text-slate-100  -->
 	<div class="flex flex-col my-5 lg:mx-40 md:mx-20 mx-10 grow">
-		<slot {conversion} />
+		<slot />
 	</div>
 	{#if $page.url.pathname == '/'}
 		<div>

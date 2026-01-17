@@ -3,24 +3,63 @@
 	import { Alert, Button, Heading, P, Span } from 'flowbite-svelte';
 
 	import { PUBLIC_ORIGIN } from '$env/static/public';
-	import { getContext, onMount } from 'svelte';
+	import { getContext } from 'svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
-	const conversion: (() => void) | undefined = getContext('conversionFunction');
+	let conversionDone = false;
 
-	onMount(() => {
-		if (conversion) {
+	let conversion: (() => void) | undefined;
+
+	$: conversion = getContext('conversionFunction');
+
+	$: {
+		if (conversion && !conversionDone) {
 			console.log(conversion);
 			console.log('Doing conversion!');
+			conversionDone = true;
 			conversion();
 		}
-	});
+	}
 </script>
 
 <svelte:head>
-	<title>AMC Trainer</title>
+	<title>AMC Trainer - Practice AMC 8, 10, 12 Problems</title>
+	<meta
+		name="description"
+		content="Master the AMC 8, 10, and 12 math competitions with AMC Trainer. Access over 5000+ practice problems, solutions, and track your progress for free."
+	/>
+	<meta
+		name="keywords"
+		content="AMC 8, AMC 10, AMC 12, AIME, Math Competition, Math Olympiad, Practice Problems, Solutions, Trainer, Mathematics"
+	/>
+	<meta property="og:title" content="AMC Trainer - Practice AMC 8, 10, 12 Problems" />
+	<meta
+		property="og:description"
+		content="Master the AMC 8, 10, and 12 math competitions with AMC Trainer. Access over 5000+ practice problems, solutions, and track your progress."
+	/>
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content={PUBLIC_ORIGIN} />
+	<meta property="og:image" content="{PUBLIC_ORIGIN}/trainer.png" />
+	<meta property="og:site_name" content="AMC Trainer" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="AMC Trainer - Practice AMC 8, 10, 12 Problems" />
+	<meta
+		name="twitter:description"
+		content="Master the AMC 8, 10, and 12 math competitions with AMC Trainer. Access over 5000+ practice problems, solutions, and track your progress."
+	/>
+	<meta name="twitter:image" content="{PUBLIC_ORIGIN}/trainer.png" />
+	<link rel="canonical" href={PUBLIC_ORIGIN} />
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "WebSite",
+			"name": "AMC Trainer",
+			"url": "{PUBLIC_ORIGIN}",
+			"description": "Practice problems from AMC 8, 10, 12, and more."
+		}
+	</script>
 </svelte:head>
 {#if data.error}
 	<Alert color="red">
@@ -76,7 +115,7 @@
 	class="text-left mb-40  flex xl:grid xl:grid-cols-2 flex-col xl:gap-20 gap-10 justify-center items-center"
 >
 	<div>
-		<Heading tag="h1" class="mb-4" customSize="text-4xl font-extrabold  md:text-5xl lg:text-6xl"
+		<Heading tag="h2" class="mb-4" customSize="text-4xl font-extrabold  md:text-5xl lg:text-6xl"
 			><Span gradient>Customizable</Span> Trainer.</Heading
 		>
 		<P class="mb-6 text-md lg:text-lg  dark:text-gray-400"
@@ -87,7 +126,15 @@
 		>
 	</div>
 	<div>
-		<img src="/trainer.png" alt="Trainer mode" class="dark:block hidden" />
-		<img src="/lighttrainer.png" alt="Trainer mode" class="dark:hidden block" />
+		<img
+			src="/trainer.png"
+			alt="AMC Trainer interface showing practice problems"
+			class="dark:block hidden"
+		/>
+		<img
+			src="/lighttrainer.png"
+			alt="AMC Trainer interface showing practice problems in light mode"
+			class="dark:hidden block"
+		/>
 	</div>
 </div>

@@ -131,7 +131,7 @@
 	{/if}
 </div>
 <div
-	class="text-left mb-40  flex xl:grid xl:grid-cols-2 flex-col xl:gap-20 gap-10 justify-center items-center"
+	class="text-left mb-32  flex xl:grid xl:grid-cols-2 flex-col xl:gap-20 gap-10 justify-center items-center"
 >
 	<div>
 		<Heading tag="h2" class="mb-4" customSize="text-4xl font-extrabold  md:text-5xl lg:text-6xl"
@@ -157,4 +157,17 @@
 			class="dark:hidden block"
 		/>
 	</div>
+</div>
+
+<div class="text-center mb-40 ">
+	<Heading tag="h2" class="mb-4" customSize="text-4xl font-extrabold md:text-5xl lg:text-6xl"
+		>Why We Are One of the Best AMC Preparation Websites
+	</Heading>
+	<P class="mb-6 text-lg lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400"
+		>We provide the most comprehensive and user-friendly platform for mastering the AMC 8, AMC 10,
+		and AMC 12. With our extensive database of past problems, detailed solutions, and personalized
+		progress tracking, students can effectively identify their strengths and weaknesses. Join a
+		community of dedicated learners and take your math competition skills to the next level with our
+		free, high-quality preparation materials.</P
+	>
 </div>

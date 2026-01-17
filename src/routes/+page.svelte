@@ -25,38 +25,51 @@
 
 	const schema = {
 		'@context': 'https://schema.org',
-		'@type': 'WebSite',
+		'@type': 'SoftwareApplication',
 		name: 'AMC Trainer',
 		url: PUBLIC_ORIGIN,
-		description: 'Practice problems from AMC 8, 10, 12, and more.'
+		description:
+			'The best AMC preparation website for students. Practice real AMC 8, 10, and 12 problems with detailed solutions.',
+		applicationCategory: 'EducationalApplication',
+		offers: {
+			'@type': 'Offer',
+			price: '0',
+			priceCurrency: 'USD'
+		}
 	};
 	const jsonLd = `<script type="application/ld+json">${JSON.stringify(schema)}<\/script>`;
 </script>
 
 <svelte:head>
-	<title>AMC Trainer - Practice AMC 8, 10, 12 Problems</title>
+	<title>AMC Practice: Free AMC 8, 10, & 12 Problems & Solutions (1950-2026)</title>
 	<meta
 		name="description"
-		content="Master the AMC 8, 10, and 12 math competitions with AMC Trainer. Access over 5000+ practice problems, solutions, and track your progress for free."
+		content="The best AMC preparation website for students. Practice real AMC 8, 10, and 12 problems with detailed solutions. Master every competition with our free trainer."
 	/>
 	<meta
 		name="keywords"
-		content="AMC 8, AMC 10, AMC 12, AIME, Math Competition, Math Olympiad, Practice Problems, Solutions, Trainer, Mathematics"
+		content="AMC practice, AMC 8 Practice, AMC 10 Practice, AMC 12 Practice, AMC 8 Problems and Solutions, AMC 8 10 12 problems, Best AMC preparation websites, AIME prep"
 	/>
-	<meta property="og:title" content="AMC Trainer - Practice AMC 8, 10, 12 Problems" />
+	<meta
+		property="og:title"
+		content="AMC Practice: Free AMC 8, 10, & 12 Problems & Solutions (1950-2026)"
+	/>
 	<meta
 		property="og:description"
-		content="Master the AMC 8, 10, and 12 math competitions with AMC Trainer. Access over 5000+ practice problems, solutions, and track your progress."
+		content="The best AMC preparation website for students. Practice real AMC 8, 10, and 12 problems with detailed solutions. Master every competition with our free trainer."
 	/>
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content={PUBLIC_ORIGIN} />
 	<meta property="og:image" content="{PUBLIC_ORIGIN}/trainer.png" />
 	<meta property="og:site_name" content="AMC Trainer" />
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="AMC Trainer - Practice AMC 8, 10, 12 Problems" />
+	<meta
+		name="twitter:title"
+		content="AMC Practice: Free AMC 8, 10, & 12 Problems & Solutions (1950-2026)"
+	/>
 	<meta
 		name="twitter:description"
-		content="Master the AMC 8, 10, and 12 math competitions with AMC Trainer. Access over 5000+ practice problems, solutions, and track your progress."
+		content="The best AMC preparation website for students. Practice real AMC 8, 10, and 12 problems with detailed solutions. Master every competition with our free trainer."
 	/>
 	<meta name="twitter:image" content="{PUBLIC_ORIGIN}/trainer.png" />
 	<link rel="canonical" href={PUBLIC_ORIGIN} />
@@ -70,12 +83,17 @@
 
 <div class="text-center my-40">
 	<Heading tag="h1" class="mb-4" customSize="text-4xl font-extrabold  md:text-5xl lg:text-6xl"
-		>Practice problems from AMC 8, 10, 12, and more.
+		>The Ultimate AMC 8, 10, and 12 Practice Platform
 	</Heading>
 	<P class="mb-6 text-lg lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400"
-		>The AMC Trainer has every single problem from AMC 8, 10, 12, and more from contests dating back
-		to 1950. Practice for upcoming tests using our database of more than 5000 problems and detailed
-		solutions, helping you learn.</P
+		>The AMC Trainer is designed to be the best AMC preparation website for students aiming for top
+		scores. Our platform allows you to build a personalized study plan by choosing specific <a
+			href="/contests/amc8"
+			class="text-blue-500 hover:underline">AMC 8</a
+		>,
+		<a href="/contests/amc10" class="text-blue-500 hover:underline">AMC 10</a>, and
+		<a href="/contests/amc12" class="text-blue-500 hover:underline">AMC 12</a> practice modules while
+		tracking your performance statistics in real-time.</P
 	>
 	{#if data?.session?.user}
 		<Button href="/trainer"
@@ -119,11 +137,12 @@
 		<Heading tag="h2" class="mb-4" customSize="text-4xl font-extrabold  md:text-5xl lg:text-6xl"
 			><Span gradient>Customizable</Span> Trainer.</Heading
 		>
-		<P class="mb-6 text-md lg:text-lg  dark:text-gray-400"
-			>AMC Trainer allows you to choose what contests you want to practice on the trainer while
-			recording your statistics. It gives you state of the art feedback if you get your answers
-			wrong, sometimes giving you several different possible solutions to a single problem. Share
-			with your friends how much you have been practicing!</P
+		<P class="mb-6 text-md lg:text-lg  dark:text-gray-400">
+			Access a massive database of AMC 8, 10, and 12 problems and solutions dating back to 1950. If
+			you miss a question, our trainer provides state-of-the-art feedback and multiple detailed
+			solutions to help you master complex concepts. Whether you are preparing for the AMC 8 or
+			pushing for AIME qualification, you can save your progress and share your training milestones
+			with friends!</P
 		>
 	</div>
 	<div>

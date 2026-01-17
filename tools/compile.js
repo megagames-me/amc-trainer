@@ -1,10 +1,11 @@
-import getAMC8Data from "./data/amc8.js"
+import cliProgress from "cli-progress"
+import fs from "fs"
+import { closeBrowser } from "./browser.js"
+import getAHSMEData from "./data/ahsme.js"
 import getAMC10Data from "./data/amc10.js"
 import getAMC12Data from "./data/amc12.js"
-import getAHSMEData from "./data/ahsme.js"
+import getAMC8Data from "./data/amc8.js"
 import totalChunks from "./data/chunks.js"
-import fs from "fs"
-import cliProgress from "cli-progress"
 
 const timeBefore = Date.now();
 
@@ -90,6 +91,7 @@ totalChunks().then(chunks => {
 		bar1.stop();
 	
 	  console.log("Completed in", Date.now() - timeBefore, "ms." )
+	  closeBrowser();
 	});
 
 

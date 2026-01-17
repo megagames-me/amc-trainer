@@ -1,16 +1,4 @@
-import fetch from "cross-fetch"
-import { JSDOM } from "jsdom"
-import fs from "fs"
-
-async function getDOM(link) {
-	try {
-		var data = await fetch(link);	
-	} catch {
-		console.error("Could not fetch data from " + link);
-	}
-	const dataJSON = await data.json();
-	return new JSDOM(dataJSON.parse.text["*"]);
-}
+import { getDOM } from "../browser.js";
 
 async function getAMC12Data(chunkDone) {
 	const contestListDOM = await getDOM("https://artofproblemsolving.com/wiki/api.php?action=parse&page=AMC_12_Problems_and_Solutions&format=json");

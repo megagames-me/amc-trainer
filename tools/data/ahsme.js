@@ -1,22 +1,4 @@
-import fetch from "cross-fetch"
-import { JSDOM } from "jsdom"
-import fs from "fs"
-
-async function getDOM(link) {
-	try {
-		var data = await fetch(link);	
-	} catch {
-		console.error("Could not fetch data from " + link);
-	}
-	const dataJSON = await data.json();
-	try {
-		return new JSDOM(dataJSON.parse.text["*"]);
-	} catch {
-		console.error("Could not fetch data from " + link);
-		return null;
-	}
-	
-}
+import { getDOM } from "../browser.js";
 
 async function getAHSMEData(chunkDone) {
 	const contestListDOM = await getDOM("https://artofproblemsolving.com/wiki/api.php?action=parse&page=AHSME_Problems_and_Solutions&format=json");

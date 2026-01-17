@@ -135,7 +135,7 @@
 >
 	<div>
 		<Heading tag="h2" class="mb-4" customSize="text-4xl font-extrabold  md:text-5xl lg:text-6xl"
-			><Span gradient>Customizable</Span> Trainer.</Heading
+			><Span gradient>Customizable</Span> AMC Practice & Training.</Heading
 		>
 		<P class="mb-6 text-md lg:text-lg  dark:text-gray-400">
 			Access a massive database of AMC 8, 10, and 12 problems and solutions dating back to 1950. If

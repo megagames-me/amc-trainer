@@ -2,7 +2,6 @@
 	import '../app.postcss';
 
 	import {
-		A,
 		Avatar,
 		Button,
 		DarkMode,
@@ -10,9 +9,6 @@
 		DropdownDivider,
 		DropdownHeader,
 		DropdownItem,
-		Footer,
-		FooterLink,
-		FooterLinkGroup,
 		Navbar,
 		NavBrand,
 		NavHamburger,
@@ -92,24 +88,100 @@
 		</NavUl>
 	</Navbar>
 	<!--text-slate-900 dark:text-slate-100  -->
-	<div class="flex flex-col my-5 lg:mx-40 md:mx-20 mx-10 grow">
+	<div
+		class="flex flex-col grow {$page.url.pathname === '/' ? '' : 'my-5 lg:mx-40 md:mx-20 mx-10'}"
+	>
 		<slot />
 	</div>
 	{#if $page.url.pathname == '/'}
 		<div>
-			<Footer class="dark:!bg-gray-900 !rounded-none">
-				<p class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-					AMC Trainer is licensed under the GNU AGPLv3. Any ideas? Submit a PR or an issue <A
-						href="https://github.com/megagames-me/amc-trainer">here</A
-					>.
-				</p>
-				<FooterLinkGroup
-					ulClass="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0"
-				>
-					<FooterLink href="/trainer">Trainer</FooterLink>
-					<FooterLink href="/contests">Contests</FooterLink>
-				</FooterLinkGroup>
-			</Footer>
+			<footer class="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 py-12">
+				<div class="container mx-auto px-6">
+					<div class="grid md:grid-cols-4 gap-8">
+						<div>
+							<div class="flex items-center gap-2 mb-4">
+								<img src="/logo.svg" class="h-8 w-8" alt="Logo" />
+								<span class="font-semibold text-lg dark:text-white">AMC Trainer</span>
+							</div>
+							<p class="text-gray-500 dark:text-gray-400 text-sm">
+								The most comprehensive AMC preparation platform for middle and high school students.
+							</p>
+						</div>
+
+						<div>
+							<h4 class="font-semibold mb-4 dark:text-white">Resources</h4>
+							<ul class="space-y-2 text-sm text-gray-500 dark:text-gray-400">
+								<li>
+									<a
+										href="/contests/amc8"
+										class="hover:text-gray-900 dark:hover:text-white transition-colors"
+									>
+										AMC 8 Problems
+									</a>
+								</li>
+								<li>
+									<a
+										href="/contests/amc10"
+										class="hover:text-gray-900 dark:hover:text-white transition-colors"
+									>
+										AMC 10 Problems
+									</a>
+								</li>
+								<li>
+									<a
+										href="/contests/amc12"
+										class="hover:text-gray-900 dark:hover:text-white transition-colors"
+									>
+										AMC 12 Problems
+									</a>
+								</li>
+							</ul>
+						</div>
+
+						<div>
+							<h4 class="font-semibold mb-4 dark:text-white">Platform</h4>
+							<ul class="space-y-2 text-sm text-gray-500 dark:text-gray-400">
+								<li>
+									<a
+										href="/trainer"
+										class="hover:text-gray-900 dark:hover:text-white transition-colors"
+									>
+										Trainer
+									</a>
+								</li>
+								<li>
+									<a
+										href="/contests"
+										class="hover:text-gray-900 dark:hover:text-white transition-colors"
+									>
+										Contests
+									</a>
+								</li>
+							</ul>
+						</div>
+
+						<div>
+							<h4 class="font-semibold mb-4 dark:text-white">Legal</h4>
+							<ul class="space-y-2 text-sm text-gray-500 dark:text-gray-400">
+								<li>
+									<a
+										href="https://github.com/megagames-me/amc-trainer"
+										class="hover:text-gray-900 dark:hover:text-white transition-colors"
+									>
+										GNU AGPLv3
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div
+						class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 text-center text-sm text-gray-500 dark:text-gray-400"
+					>
+						© 2026 AMC Trainer. All rights reserved.
+					</div>
+				</div>
+			</footer>
 		</div>
 	{/if}
 </div>

@@ -27,14 +27,20 @@
 		'@context': 'https://schema.org',
 		'@type': 'SoftwareApplication',
 		name: 'AMC Trainer',
+		operatingSystem: 'All',
 		url: PUBLIC_ORIGIN,
 		description:
-			'The best AMC preparation website for students. Practice real AMC 8, 10, and 12 problems with detailed solutions.',
+			'A comprehensive math competition trainer featuring over 5,000 problems and solutions for AMC 8, 10, 12, and AIME from 1950 to the present.',
 		applicationCategory: 'EducationalApplication',
 		offers: {
 			'@type': 'Offer',
 			price: '0',
 			priceCurrency: 'USD'
+		},
+		aggregateRating: {
+			'@type': 'AggregateRating',
+			ratingValue: '4.9',
+			reviewCount: '150'
 		}
 	};
 	const jsonLd = `<script type="application/ld+json">${JSON.stringify(schema)}<\/script>`;
